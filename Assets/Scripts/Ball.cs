@@ -20,6 +20,11 @@ public class Ball : MonoBehaviour
     private void Update()
     {
         PlayerInput();
+
+        if (LevelManager.main.outOfStrokes && rb.velocity.magnitude <= 0.2f && !LevelManager.main.levelCompleted)
+        {
+            LevelManager.main.gameOver();
+        }
     }
 
     private bool IsReady()
@@ -64,6 +69,8 @@ public class Ball : MonoBehaviour
             return;
         }
 
+        LevelManager.main.IncreaseStroke();
+
         Vector2 direction = (Vector2)transform.position - pos;
 
         rb.velocity = Vector2.ClampMagnitude(direction * power, maxPower);
@@ -85,6 +92,7 @@ public class Ball : MonoBehaviour
         }
 
         // Level Completed
+        LevelManager.main.levelComplete();
 
     }
 
