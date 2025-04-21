@@ -17,14 +17,19 @@ public class Ball : MonoBehaviour
     private bool isDragging;
     private bool inHole;
 
+    private float slowTimer = 0f;  
+    private float slowThreshold = 0.3f;
+    private float slowDuration = 0.5f; 
+
     private void Update()
     {
         PlayerInput();
+        SmoothStop(); 
     }
 
     private bool IsReady()
     {
-        return rb.velocity.magnitude <= 0.2f;
+        return rb.velocity.magnitude <= slowThreshold;
     }
 
     private void PlayerInput()
@@ -59,14 +64,27 @@ public class Ball : MonoBehaviour
         isDragging = false;
         lr.positionCount = 0;
 
-        if (distance < 1f)
-        {
-            return;
-        }
+        if (distance < 1f) return;
 
         Vector2 direction = (Vector2)transform.position - pos;
-
         rb.velocity = Vector2.ClampMagnitude(direction * power, maxPower);
+    }
+
+    private void SmoothStop() // <--
+    {
+        if (rb.velocity.magnitude <= slowThreshold && rb.velocity.magnitude > 0f)
+        {
+            slowTimer += Time.deltaTime;
+            if (slowTimer >= slowDuration)
+            {
+                rb.velocity = Vector2.zero;
+                slowTimer = 0f;
+            }
+        }
+        else
+        {
+            slowTimer = 0f;
+        }
     }
 
     void CheckWinState()
@@ -79,13 +97,10 @@ public class Ball : MonoBehaviour
 
             rb.velocity = Vector2.zero;
             gameObject.SetActive(false);
-            
+
             GameObject fx = Instantiate(goalFx, transform.position, Quaternion.identity);
             Destroy(fx, 2f);
         }
-
-        // Level Completed
-
     }
 
     void OnTriggerEnter2D(Collider2D collision)
