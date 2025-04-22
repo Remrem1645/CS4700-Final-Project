@@ -25,6 +25,10 @@ public class Ball : MonoBehaviour
     {
         PlayerInput();
         SmoothStop(); 
+        if (LevelManager.main.outOfStrokes && rb.velocity.magnitude <= 0.2f && !LevelManager.main.levelCompleted)
+        {
+            LevelManager.main.gameOver();
+        }
     }
 
     private bool IsReady()
@@ -102,6 +106,8 @@ public class Ball : MonoBehaviour
 
             GameObject fx = Instantiate(goalFx, transform.position, Quaternion.identity);
             Destroy(fx, 2f);
+
+            LevelManager.main.levelComplete();
         }
     }
 
