@@ -45,9 +45,7 @@ public class LevelManager : MonoBehaviour
     public void levelComplete()
     {
         levelCompleted = true;
-        levelCompletedStrokeUI.text = strokes > 1 ? "You completed the hole in " + strokes + " strokes" : "Hole in one!";
-
-        levelCompleteUI.SetActive(true);
+        StartCoroutine(ShowLevelCompleteAfterDelay());
     }
 
     public void gameOver()
@@ -59,4 +57,16 @@ public class LevelManager : MonoBehaviour
     {
         strokeUI.text = strokes + "/" + maxStrokes;
     }
+
+    private IEnumerator ShowLevelCompleteAfterDelay()
+{
+    yield return new WaitForSeconds(1.0f); 
+
+    levelCompletedStrokeUI.text = strokes > 1 
+        ? "You completed the hole in " + strokes + " strokes" 
+        : "Hole in one!";
+
+    levelCompleteUI.SetActive(true);
+}
+
 }

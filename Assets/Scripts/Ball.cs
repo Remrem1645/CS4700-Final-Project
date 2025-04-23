@@ -13,18 +13,20 @@ public class Ball : MonoBehaviour
     [SerializeField] private float maxPower = 10f;
     [SerializeField] private float power = 2f;
     [SerializeField] private float maxGoalSpeed = 4f;
+    [SerializeField] private float sandDragMultiplier = 0.03f;
 
     private bool isDragging;
     private bool inHole;
+    private bool inSand = false;
 
-    private float slowTimer = 0f;  
+    private float slowTimer = 0f;
     private float slowThreshold = 0.3f;
-    private float slowDuration = 0.5f; 
+    private float slowDuration = 0.5f;
 
     private void Update()
     {
         PlayerInput();
-        SmoothStop(); 
+        SmoothStop();
         if (LevelManager.main.outOfStrokes && rb.velocity.magnitude <= 0.2f && !LevelManager.main.levelCompleted)
         {
             LevelManager.main.gameOver();
@@ -65,6 +67,8 @@ public class Ball : MonoBehaviour
     private void DragRelease(Vector2 pos)
     {
         float distance = Vector2.Distance((Vector2)transform.position, pos);
+        float powerModifier = inSand ? 0.5f : 1f;
+
         isDragging = false;
         lr.positionCount = 0;
 
@@ -73,10 +77,19 @@ public class Ball : MonoBehaviour
         LevelManager.main.IncreaseStroke();
 
         Vector2 direction = (Vector2)transform.position - pos;
-        rb.velocity = Vector2.ClampMagnitude(direction * power, maxPower);
+        rb.velocity = Vector2.ClampMagnitude(direction * power * powerModifier, maxPower);
     }
 
-    private void SmoothStop() // <--
+    private void HandleWaterCollision()
+    {
+        rb.velocity = Vector2.zero;
+        rb.simulated = false;
+        gameObject.SetActive(false);
+
+        LevelManager.main.gameOver();
+    }
+
+    private void SmoothStop()
     {
         if (rb.velocity.magnitude <= slowThreshold && rb.velocity.magnitude > 0f)
         {
@@ -114,10 +127,32 @@ public class Ball : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Goal") CheckWinState();
+
+        if (collision.tag == "Water") HandleWaterCollision();
+
+        if (collision.tag == "Sand") inSand = true;
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Goal") CheckWinState();
+
+        if (collision.tag == "Water") HandleWaterCollision();
+
+        if (collision.tag == "Sand") inSand = true;
     }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Sand") inSand = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (inSand && rb.velocity.magnitude > 0.2f)
+        {
+           rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, sandDragMultiplier);
+        }
+    }
+
 }
