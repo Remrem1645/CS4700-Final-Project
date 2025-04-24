@@ -4,43 +4,39 @@ using UnityEngine;
 
 public class EnemyCactus : MonoBehaviour
 {
-    public float speed;
+    public float speed = 2f;
     private Rigidbody2D rb;
     private Vector2 moveDirection = Vector2.down;
-    float zRotation;
-    
+
+    public float spinSpeed = 120f; // degrees per second
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        zRotation = transform.eulerAngles.z;
-        
+
+        float zRotation = transform.eulerAngles.z;
         float radians = zRotation * Mathf.Deg2Rad;
         moveDirection = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
     }
-    
+
     void FixedUpdate()
     {
-        
-        float moveAngle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, moveAngle);
-        
+        // Move the cactus
         rb.velocity = moveDirection.normalized * speed;
-    }
 
+        // Spin the cactus as it moves
+        float rotationAmount = spinSpeed * Time.fixedDeltaTime;
+        transform.Rotate(0f, 0f, rotationAmount);
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Bounce off walls
         ContactPoint2D contact = collision.contacts[0];
-        Vector2 bounceDirection = contact.normal;
-        
         moveDirection = contact.normal;
         rb.velocity = moveDirection.normalized * speed;
-        
-        float angle = Mathf.Atan2(bounceDirection.y, bounceDirection.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        
     }
-    
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Water"))
