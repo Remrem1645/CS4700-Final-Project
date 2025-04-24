@@ -16,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -48,4 +48,10 @@ TagManager:
     locked: 0
   - name: Ball
     uniqueID: 3080389155
+    locked: 0
+  - name: Enemy
+    uniqueID: 3045840331
+    locked: 0
+  - name: Goal
+    uniqueID: 988962203
     locked: 0
