@@ -334,6 +334,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 195.3
       objectReference: {fileID: 0}
+    - target: {fileID: 667576982154916610, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 667576982154916610, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1880008704}
+    - target: {fileID: 667576982154916610, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 667576982154916610, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StateManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 793302081191717339, guid: b0a7066b65742ee44814335468829c33, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -353,6 +369,14 @@ PrefabInstance:
     - target: {fileID: 2176793307288526026, guid: b0a7066b65742ee44814335468829c33, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209598752564842541, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1880008704}
+    - target: {fileID: 6209598752564842541, guid: b0a7066b65742ee44814335468829c33, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loadLevel
       objectReference: {fileID: 0}
     - target: {fileID: 6574938847106504397, guid: b0a7066b65742ee44814335468829c33, type: 3}
       propertyPath: m_Name
@@ -395,7 +419,8 @@ PrefabInstance:
       value: 65.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2501295571162684596, guid: b0a7066b65742ee44814335468829c33, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0a7066b65742ee44814335468829c33, type: 3}
