@@ -9711,6 +9711,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2015548338}
     - target: {fileID: 5913270708073705884, guid: 7b58559615b28dd45b2c39602e665dc1, type: 3}
+      propertyPath: maxStrokes
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913270708073705884, guid: 7b58559615b28dd45b2c39602e665dc1, type: 3}
       propertyPath: levelCompleteUI
       value: 
       objectReference: {fileID: 1724556514}

@@ -12,8 +12,8 @@ public class Ball : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
     [SerializeField] private float power = 2f;
-    [SerializeField] private float maxGoalSpeed = 4f;
-    [SerializeField] private float sandDragMultiplier = 0.03f;
+    [SerializeField] private float maxGoalSpeed = 5f;
+    [SerializeField] private float sandDragMultiplier = 0.05f;
 
     private bool isDragging;
     private bool inHole;
@@ -25,6 +25,11 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
+        if(LevelManager.main.isGameOver) {
+            rb.simulated = false;
+            return;
+        }
+
         PlayerInput();
         SmoothStop();
         if (LevelManager.main.outOfStrokes && rb.velocity.magnitude <= 0.2f && !LevelManager.main.levelCompleted)

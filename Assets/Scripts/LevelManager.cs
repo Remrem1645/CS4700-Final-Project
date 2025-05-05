@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     private int strokes;
     [HideInInspector] public bool outOfStrokes;
     [HideInInspector] public bool levelCompleted;
+    [HideInInspector] public bool isGameOver;
     private void Awake()
     {
         main = this;
@@ -50,6 +51,7 @@ public class LevelManager : MonoBehaviour
 
     public void gameOver()
     {
+        isGameOver = true;
         gameOverUI.SetActive(true);
     }
 
