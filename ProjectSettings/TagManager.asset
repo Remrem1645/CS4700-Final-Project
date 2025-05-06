@@ -9,6 +9,9 @@ TagManager:
   - Ball
   - Sand
   - Water
+  - Ice
+  - Snow
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -46,15 +49,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Ball
-    uniqueID: 3080389155
-    locked: 0
   - name: Enemy
     uniqueID: 3045840331
+    locked: 0
+  - name: Ball
+    uniqueID: 3080389155
     locked: 0
   - name: Goal
     uniqueID: 988962203
     locked: 0
   - name: text
     uniqueID: 1371512281
+    locked: 0
+  - name: Dec
+    uniqueID: 1983767357
     locked: 0

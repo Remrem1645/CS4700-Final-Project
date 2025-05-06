@@ -14,24 +14,33 @@ public class Ball : MonoBehaviour
     [SerializeField] private float power = 2f;
     [SerializeField] private float maxGoalSpeed = 5f;
     [SerializeField] private float sandDragMultiplier = 0.05f;
+    [SerializeField] private float iceSlideMultiplier = 0.01f;
+    [SerializeField] private float snowDragMultiplier = 0.085f;
 
     private bool isDragging;
     private bool inHole;
-    private bool inSand = false;
 
     private float slowTimer = 0f;
     private float slowThreshold = 0.3f;
     private float slowDuration = 0.5f;
 
+    private enum TerrainType { Normal, Sand, Snow, Ice }
+    private TerrainType currentTerrain = TerrainType.Normal;
+
+    // Track terrain contacts
+    private HashSet<string> terrainContacts = new HashSet<string>();
+
     private void Update()
     {
-        if(LevelManager.main.isGameOver) {
+        if (LevelManager.main.isGameOver)
+        {
             rb.simulated = false;
             return;
         }
 
         PlayerInput();
         SmoothStop();
+
         if (LevelManager.main.outOfStrokes && rb.velocity.magnitude <= 0.2f && !LevelManager.main.levelCompleted)
         {
             LevelManager.main.gameOver();
@@ -72,17 +81,48 @@ public class Ball : MonoBehaviour
     private void DragRelease(Vector2 pos)
     {
         float distance = Vector2.Distance((Vector2)transform.position, pos);
-        float powerModifier = inSand ? 0.5f : 1f;
+        if (distance < 1f) return;
 
         isDragging = false;
         lr.positionCount = 0;
 
-        if (distance < 1f) return;
-
         LevelManager.main.IncreaseStroke();
 
         Vector2 direction = (Vector2)transform.position - pos;
+        float powerModifier = GetPowerModifier();
+
         rb.velocity = Vector2.ClampMagnitude(direction * power * powerModifier, maxPower);
+    }
+
+    private float GetPowerModifier()
+    {
+        return currentTerrain switch
+        {
+            TerrainType.Sand => 0.5f,
+            TerrainType.Snow => 0.75f,
+            TerrainType.Ice => 1.1f,
+            _ => 1f,
+        };
+    }
+
+    private void ApplyDrag()
+    {
+        float v = rb.velocity.magnitude;
+
+        switch (currentTerrain)
+        {
+            case TerrainType.Sand when v > 0.2f:
+                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, sandDragMultiplier);
+                break;
+
+            case TerrainType.Snow when v > 0.1f:
+                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, snowDragMultiplier);
+                break;
+
+            case TerrainType.Ice when v > 0.05f:
+                rb.velocity *= (1f - iceSlideMultiplier);
+                break;
+        }
     }
 
     private void HandleWaterCollision()
@@ -90,7 +130,6 @@ public class Ball : MonoBehaviour
         rb.velocity = Vector2.zero;
         rb.simulated = false;
         gameObject.SetActive(false);
-
         LevelManager.main.gameOver();
     }
 
@@ -111,7 +150,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    void CheckWinState()
+    private void CheckWinState()
     {
         if (inHole) return;
 
@@ -129,35 +168,54 @@ public class Ball : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Goal") CheckWinState();
-
-        if (collision.tag == "Water") HandleWaterCollision();
-
-        if (collision.tag == "Sand") inSand = true;
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "Goal") CheckWinState();
-
-        if (collision.tag == "Water") HandleWaterCollision();
-
-        if (collision.tag == "Sand") inSand = true;
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Sand") inSand = false;
-    }
-
     private void FixedUpdate()
     {
-        if (inSand && rb.velocity.magnitude > 0.2f)
+        ApplyDrag();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Goal")) CheckWinState();
+        if (collision.CompareTag("Water")) HandleWaterCollision();
+
+        if (IsTerrainTag(collision.tag))
         {
-           rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, sandDragMultiplier);
+            terrainContacts.Add(collision.tag);
+            UpdateCurrentTerrain();
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Goal")) CheckWinState();
+        if (collision.CompareTag("Water")) HandleWaterCollision();
+
+        if (IsTerrainTag(collision.tag))
+        {
+            terrainContacts.Add(collision.tag);
+            UpdateCurrentTerrain();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (IsTerrainTag(collision.tag))
+        {
+            terrainContacts.Remove(collision.tag);
+            UpdateCurrentTerrain();
+        }
+    }
+
+    private bool IsTerrainTag(string tag)
+    {
+        return tag == "Sand" || tag == "Snow" || tag == "Ice";
+    }
+
+    private void UpdateCurrentTerrain()
+    {
+        if (terrainContacts.Contains("Sand")) currentTerrain = TerrainType.Sand;
+        else if (terrainContacts.Contains("Snow")) currentTerrain = TerrainType.Snow;
+        else if (terrainContacts.Contains("Ice")) currentTerrain = TerrainType.Ice;
+        else currentTerrain = TerrainType.Normal;
+    }
 }
