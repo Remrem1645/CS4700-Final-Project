@@ -20,7 +20,8 @@ public class PenguinPatrol : MonoBehaviour
     private Vector2 targetPosition;
     private bool isMoving = false;
     private bool canKick = true;
-
+    private AudioSource audioSource;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,6 +30,9 @@ public class PenguinPatrol : MonoBehaviour
         originPosition = transform.position;
 
         StartCoroutine(RoamRoutine());
+        StartCoroutine(RandomQuackRoutine());
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -62,6 +66,7 @@ public class PenguinPatrol : MonoBehaviour
 
             isMoving = false;
             animator.SetBool("isWalking", false);
+            
             yield return new WaitForSeconds(waitTime);
         }
     }
@@ -91,5 +96,15 @@ public class PenguinPatrol : MonoBehaviour
     public void Fall()
     {
         Destroy(gameObject); // or play animation/sound
+    }
+    
+    IEnumerator RandomQuackRoutine()
+    {
+        while (true)
+        {
+            float delay = Random.Range(4f, 16f);
+            yield return new WaitForSeconds(delay);
+            audioSource.Play();
+        }
     }
 }

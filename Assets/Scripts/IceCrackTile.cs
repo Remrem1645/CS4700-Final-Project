@@ -11,9 +11,16 @@ public class IceCrackTile : MonoBehaviour
     [SerializeField] private int maxCrackLevel = 4;
     [SerializeField] private float crackCooldown = 1.25f;
 
+    private AudioSource audioSource;
+    
+    
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        
         animator = GetComponent<Animator>();
+        
     }
 
     
@@ -41,7 +48,7 @@ public class IceCrackTile : MonoBehaviour
         if ((other.CompareTag("Player") || other.CompareTag("Enemy")) && !isCracking)
         {
             StartCoroutine(CrackWithCooldown(other));
-            
+            audioSource.Play();
         }
     }
     
@@ -66,5 +73,7 @@ public class IceCrackTile : MonoBehaviour
 
         
     }
+    
+    
     
 }

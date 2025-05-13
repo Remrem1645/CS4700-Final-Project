@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class Ball : MonoBehaviour
     private float slowTimer = 0f;
     private float slowThreshold = 0.3f;
     private float slowDuration = 0.5f;
+    private AudioSource audioSource;
 
     private enum TerrainType { Normal, Sand, Snow, Ice }
     private TerrainType currentTerrain = TerrainType.Normal;
@@ -31,6 +33,11 @@ public class Ball : MonoBehaviour
     // Track terrain contacts
     private HashSet<string> terrainContacts = new HashSet<string>();
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+    }
     private void Update()
     {
         if (LevelManager.main.isGameOver)
@@ -55,6 +62,7 @@ public class Ball : MonoBehaviour
 
     private void PlayerInput()
     {
+        
         if (!IsReady()) return;
 
         Vector2 inputPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -93,6 +101,8 @@ public class Ball : MonoBehaviour
         float powerModifier = GetPowerModifier();
 
         rb.velocity = Vector2.ClampMagnitude(direction * power * powerModifier, maxPower);
+        
+        audioSource.Play();
     }
 
     private float GetPowerModifier()

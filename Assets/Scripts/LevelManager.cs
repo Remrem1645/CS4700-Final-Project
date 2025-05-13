@@ -27,9 +27,12 @@ public class LevelManager : MonoBehaviour
         main = this;
     }
 
+    private AudioSource audioSource;
     private void Start()
     {
         updateStrokeUI();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     public void IncreaseStroke()
@@ -46,7 +49,9 @@ public class LevelManager : MonoBehaviour
     public void levelComplete()
     {
         levelCompleted = true;
+        audioSource.Play();
         StartCoroutine(ShowLevelCompleteAfterDelay());
+        
     }
 
     public void gameOver()
