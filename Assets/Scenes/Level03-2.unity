@@ -7487,6 +7487,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4056289475502283862, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+      propertyPath: lr
+      value: 
+      objectReference: {fileID: 1944346853840180765}
+    - target: {fileID: 4056289475502283862, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1944346853840180766}
+    - target: {fileID: 4056289475502283862, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+      propertyPath: sr
+      value: 
+      objectReference: {fileID: 1944346853840180767}
+    - target: {fileID: 4056289475502283862, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+      propertyPath: goalFx
+      value: 
+      objectReference: {fileID: 8609793932377692656, guid: 7a138af148db4de449e2e7518013cdcb, type: 3}
     - target: {fileID: 5928378587930301064, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.62
@@ -7540,6 +7556,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+--- !u!120 &1944346853840180765 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 7521562243930264960, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+  m_PrefabInstance: {fileID: 1944346853840180764}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1944346853840180766 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 537592138024399111, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+  m_PrefabInstance: {fileID: 1944346853840180764}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1944346853840180767 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7917848014132838432, guid: f8e79b3a368766a4288a0b525e58bb92, type: 3}
+  m_PrefabInstance: {fileID: 1944346853840180764}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

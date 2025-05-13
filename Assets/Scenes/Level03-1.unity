@@ -18783,6 +18783,7 @@ MonoBehaviour:
   rb: {fileID: 945935098}
   lr: {fileID: 945935096}
   goalFx: {fileID: 8609793932377692656, guid: 7a138af148db4de449e2e7518013cdcb, type: 3}
+  sr: {fileID: 945935099}
   maxPower: 10
   power: 2
   maxGoalSpeed: 4

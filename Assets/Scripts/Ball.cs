@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LineRenderer lr;
     [SerializeField] private GameObject goalFx;
+    [SerializeField] private SpriteRenderer sr;
 
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
@@ -37,7 +38,7 @@ public class Ball : MonoBehaviour
             rb.simulated = false;
             return;
         }
-
+        
         PlayerInput();
         SmoothStop();
 
@@ -171,6 +172,7 @@ public class Ball : MonoBehaviour
     private void FixedUpdate()
     {
         ApplyDrag();
+        ChangeColor();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -218,4 +220,16 @@ public class Ball : MonoBehaviour
         else if (terrainContacts.Contains("Ice")) currentTerrain = TerrainType.Ice;
         else currentTerrain = TerrainType.Normal;
     }
+
+    public void ChangeColor()
+    {
+        if(PlayerPrefs.HasKey("currentColor"))
+            sr.color = GameSettings.instance.ballColors[PlayerPrefs.GetInt("currentColor")];
+        else
+        {
+            PlayerPrefs.SetInt("currentColor", 0);
+            sr.color = GameSettings.instance.ballColors[PlayerPrefs.GetInt("currentColor")];
+        }
+    }
+
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 537592138024399111}
   - component: {fileID: 7437930188554743902}
   - component: {fileID: 7521562243930264960}
-  - component: {fileID: 2908642192216531132}
+  - component: {fileID: 4056289475502283862}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1214578141
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -190,7 +190,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1214578141
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Positions: []
   m_Parameters:
@@ -261,7 +261,7 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &2908642192216531132
+--- !u!114 &4056289475502283862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,10 +273,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd1cffc981cc0846a2911601fad0240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 537592138024399111}
-  lr: {fileID: 7521562243930264960}
-  goalFx: {fileID: 8609793932377692656, guid: 7a138af148db4de449e2e7518013cdcb, type: 3}
+  rb: {fileID: 0}
+  lr: {fileID: 0}
+  goalFx: {fileID: 0}
+  sr: {fileID: 0}
   maxPower: 10
   power: 2
-  maxGoalSpeed: 4
-  sandDragMultiplier: 0.1
+  maxGoalSpeed: 5
+  sandDragMultiplier: 0.05
+  iceSlideMultiplier: 0.01
+  snowDragMultiplier: 0.085

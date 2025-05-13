@@ -9,6 +9,8 @@ public class MenuBall : MonoBehaviour
     [SerializeField] private LineRenderer lr;
     [SerializeField] private GameObject goalFx;
 
+    [SerializeField] private SpriteRenderer sr;
+
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
     [SerializeField] private float power = 2f;
@@ -18,6 +20,7 @@ public class MenuBall : MonoBehaviour
 
     private void Update()
     {
+        ChangeColor();
         PlayerInput();
     }
 
@@ -77,5 +80,16 @@ public class MenuBall : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Level") CheckWinState();
+    }
+
+    public void ChangeColor()
+    {
+        if(PlayerPrefs.HasKey("currentColor"))
+            sr.color = GameSettings.instance.ballColors[PlayerPrefs.GetInt("currentColor")];
+        else
+        {
+            PlayerPrefs.SetInt("currentColor", 0);
+            sr.color = GameSettings.instance.ballColors[PlayerPrefs.GetInt("currentColor")];
+        }
     }
 }
